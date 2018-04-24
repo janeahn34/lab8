@@ -123,7 +123,7 @@ decide how to implement this.
                                                    
   let add_listener (evt : 'a event) (listener : 'a -> unit) : id =
     evt := {id = new_id (); action = listener}  :: !evt;
-    !id_counter 
+    !id_counter - 1
 
 (*......................................................................
 Exercise 2: Write remove_listener, which, given an id and an event,
