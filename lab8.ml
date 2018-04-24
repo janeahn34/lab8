@@ -140,7 +140,7 @@ listening for the event.
 ......................................................................*)
             
   let fire_event (evt : 'a event) (arg : 'a) : unit =
-    List.map (fun x -> x.action arg) !evt 
+    let _ = List.map (fun x -> x.action arg) !evt in () 
 
 end
   
@@ -157,7 +157,7 @@ Exercise 4: Given your implementation of Event, create a new event
 called "newswire" that should pass strings to the event handlers.
 ......................................................................*)
   
-let newswire : string WEvent.event = new WEvent.new_event () ;;
+let newswire : string WEvent.event = WEvent.new_event () ;;
 
 (* News organizations might want to register event listeners to the
 newswire so that they might report on stories. Below are functions
@@ -212,7 +212,7 @@ Exercise 8: Create a new event called publish to signal that all
 stories should be published. The event should be a unit WEvent.event.
 ......................................................................*)
  
-let publish : unit WEvent.event = new WEvent.new_event () ;; 
+let publish : unit WEvent.event = WEvent.new_event () ;; 
 
 (*......................................................................
 Exercise 9: Write a function receive_report to handle new news
@@ -234,7 +234,7 @@ Exercise 10: Register the receieve_report listener to listen for the
 newswire event.
 ......................................................................*)
 
-WEvent.add_listener newswire receive_report ;; 
+let c = WEvent.add_listener newswire receive_report ;; 
 
 (* Here are some new headlines to use for testing this part. *)
 
@@ -261,4 +261,6 @@ out the headlines. You should see the headlines printed after
 the line above. 
 ......................................................................*)
 
-WEvent.fire_event newswire publish ;;
+WEvent.fire_event publish () ;;
+
+
